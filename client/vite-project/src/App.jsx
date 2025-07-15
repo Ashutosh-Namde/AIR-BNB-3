@@ -1,55 +1,28 @@
-// import { useDispatch, useSelector } from "react-redux"
-// import { decrement, increment , incrementByAmount, reset} from "./feature/counter/CounterSlice";
-// import { useState } from "react";
+import {Routes,Route, Navigate} from 'react-router-dom'
+import Home from './pages/Home'
+import SignUp from './pages/SignUp'
+import Login from './pages/Login'
+import ListingPage from './pages/ListingPage'
+import ListingPage2 from './pages/ListingPage2'
+import ListingPage3 from './pages/ListingPage3'
+import { userDataContext } from './context/UserContext'
+import { useContext } from 'react'
+import MyListing from './pages/MyListing'
 
 const App = () => {
-
-//   const [amount, setamount] = useState("")
-
-//   const count = useSelector((state)=>state.counter.value)
-//   const dispatch = useDispatch();
-
-//   const handleIncrementClick = ()=>{
-//       dispatch(increment())
-//   }
-
-//   const handleDecrementClick = ()=>{
-
-// dispatch(decrement())
-//   }
-//   const handleResetClick = ()=>{
-//     dispatch(reset())
-//   }
-//   const handleNumberClick = ()=>{
-//     dispatch(incrementByAmount(amount))
-//   }
-
- const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>()
+  const {userData} = useContext(userDataContext)
   return (
-    <div>
-      {/* <button onClick={handleIncrementClick} className="border p-5">+</button> */}
-      {/* <p>count:{count}</p> */}
-      {/* <button onClick={handleDecrementClick} className="border p-5">-</button> */}
-      {/* <button onClick={handleResetClick} className="border p-5">Reset</button> */}
-      {/* <input type="number" placeholder="enter number " value={amount}  onChange={(e)=>{setamount(e.target.value)}} /> */}
-      {/* <button onClick={handleNumberClick} className="border p-5">inc by num</button> */}
-      <div>
-             <form >
-                <input type="text" placeholder="enter your name" {...register("userName") ,{required:true}}/>
-                <input type="text" placeholder="enter your name" {...register("email"), {required:true}}/>
-                <button onClick={""}>submit</button>
-             </form>
-      </div>
+    <div className='h-full w-full'>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/signup' element={<SignUp/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/listing' element={userData != null ? <ListingPage/>:<Navigate to={"/login"}/>}/>
+        <Route path='/listing2' element={userData != null ?<ListingPage2/>:<Navigate to={"/login"}/>}/>
+        <Route path='/listing3' element={userData != null ?<ListingPage3/>:<Navigate to={"/login"}/>}/>
+        <Route path='/mylisting' element={userData != null ? <MyListing/>:<Navigate to={"/login"}/>}/>
+      </Routes>
     </div>
-
-    
-  
-  
   )
 }
 
