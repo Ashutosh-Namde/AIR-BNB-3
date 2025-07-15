@@ -3,24 +3,24 @@ const mongoose = require("mongoose")
 const userSchema = mongoose.Schema({
     userName:{
         required:"true",
-        Type:String
+        type:String
     },
     email:{
-        required:"true",
-        Type:String
+        required:true,
+        type:String
     },
-    phone:{
-        required:"true",
-        Type:Number
-    },
+    // phone:{
+       
+    //     type:Number
+    // },
     password:{
-        required:"true",
-        Type:String
+        required:true,
+        type:String
     },
-    address:{
-        required:"true",
-        Type:String
-    },
+    // address:{
+       
+    //     type:String
+    // },
     // isAdmin:{
     //     Type:Boolean,
     //     default:false
