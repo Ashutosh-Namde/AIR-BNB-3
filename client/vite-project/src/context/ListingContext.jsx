@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { userDataContext } from './UserContext'
 import { set } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
 export const listingDataContext =createContext()
 
@@ -27,6 +28,9 @@ const [backendImage3, setbackendImage3] = useState(null)
 const [adding, setAdding] = useState(false)
 const [listingdata, setlistingdata] = useState([]) 
 const [newlistData, setnewlistData] = useState([])
+const [cardData, setcardData] = useState(null)
+const [update, setUpdate] = useState(false)
+const [deleted, setDeleted] = useState(false)
 
   const handleAddListing = async () => {
         setAdding(true)
@@ -51,8 +55,8 @@ const [newlistData, setnewlistData] = useState([])
         let result = await axios.post( serverUrl + "/listing/add" ,formData, {withCredentials:true}  )
         setAdding(false)
      console.log(" Listing added:", result.data);
-     setlistingdata(prev => [...prev, result.data]);
-setnewlistData(prev => [...prev, result.data]);
+  setlistingdata(prev => [result.data, ...prev]);
+setnewlistData(prev => [result.data, ...prev]);
         // navigate("/")
         // toast.success("AddListing Successfully")
         settitle("")
@@ -91,10 +95,23 @@ setnewlistData(prev => [...prev, result.data]);
       }
      }
 
+     const viewCardHandler = async(id) => {
+      try {
+        const  result = await axios.get(serverUrl + `/listing/find/${id}`, { withCredentials: true });
+        console.log("Listing details:", result.data);
+        setcardData(result.data);
+      } catch (error) {
+        console.log("Error fetching listing details:", error.response?.data?.message || error.message);
+        
+      }
+     }
+     
+
+
      useEffect(()=>{
 handleGetAllListing()
+     },[adding,update,deleted])
 
-     },[])
 const value = {
     title, settitle,
     description, setdescription,
@@ -112,7 +129,12 @@ const value = {
     handleAddListing,
     handleGetAllListing,
     listingdata, setlistingdata,
-    newlistData, setnewlistData
+    newlistData, setnewlistData,
+    viewCardHandler,
+    cardData, setcardData,
+    update, setUpdate,
+    deleted, setDeleted,
+    
     
 }
 

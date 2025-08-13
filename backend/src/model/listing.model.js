@@ -16,6 +16,10 @@ const listingSchema = mongoose.Schema({
         ref:"userModel",
         required:true
     },
+      guest:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"userModel",
+    },
     image1:{
         type:String,
         required:true
@@ -48,6 +52,12 @@ const listingSchema = mongoose.Schema({
         type:Boolean,
         default:false
     },
+     rating:{
+        type:Number,
+        default: 0,
+        min: 0,
+        max: 5
+      } 
 },{timestamps:true})
 
 const listingModle = mongoose.model("Listing" , listingSchema)

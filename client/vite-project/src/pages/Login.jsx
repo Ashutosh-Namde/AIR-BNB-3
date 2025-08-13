@@ -35,6 +35,7 @@ const Login = () => {
       console.log(result.data);
 
       setuserData(result.data.user);
+      navigate("/")
     } catch (error) {
       setloading(false);
       console.log(error.response.data.message);
@@ -80,21 +81,9 @@ const Login = () => {
               }}
             />
 
-            {/* {!show && (
-              <MdRemoveRedEye
-                className="absolute right-[32%] bottom-[42.5%] cursor-pointer"
-                onClick={() => setshow((prev) => !prev)}
-              />
-            )}
-
-            {show && (
-              <IoEyeOffSharp
-                className="absolute right-[32%] bottom-[42.5%] cursor-pointer"
-                onClick={() => setshow((prev) => !prev)}
-              />
-            )} */}
+          
           </div>
-          <button onClick={()=>{navigate("/")}} className="px-6 py-1 bg-red-500 mt-5 rounded-lg">
+          <button  className="px-6 py-1 bg-red-500 mt-5 rounded-lg">
             submit
           </button>
         </form>

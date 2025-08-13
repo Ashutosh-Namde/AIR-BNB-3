@@ -32,19 +32,20 @@ const getCurrentUser = async()=>{
         
     }  
 }
- useEffect(()=>{
-    getCurrentUser()
-    },[])
+  useEffect(() => {
+
+    getCurrentUser();
+  }, []);
 
     const value = {
         userData,
-        setuserData
+        setuserData,getCurrentUser
     }
 
   return (
-    <div>
+  
             <userDataContext.Provider value={value}>{children}</userDataContext.Provider>
-    </div>
+
   )
 }
 

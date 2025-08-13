@@ -1,4 +1,4 @@
-import React, { Children, createContext } from 'react'
+import React, {  createContext } from 'react'
 import { useState } from 'react'
 
 export const authDataContext = createContext()
@@ -15,13 +15,13 @@ const AuthContext = ({children}) => {
     setloading
   }
   return (
-    <div>
+ 
     
       <authDataContext.Provider value={value}>
         {children}
       </authDataContext.Provider >
     
-    </div>
+   
   )
 }
 

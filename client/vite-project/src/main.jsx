@@ -5,17 +5,24 @@ import {BrowserRouter} from 'react-router-dom'
 import AuthContext from './context/AuthContext.jsx'
 import UserContext from './context/UserContext.jsx'
 import ListingContext from './context/ListingContext.jsx'
+import BookingContext from './context/BookingContext.jsx'
+import CommentContextProvider from './context/comment.jsx'
 
 
 
 createRoot(document.getElementById('root')).render(
  <BrowserRouter>
- <AuthContext>
-  <ListingContext>
-   <UserContext>
-    <App />
-    </UserContext>
+  <AuthContext>
+   <ListingContext>
+     <UserContext>
+      <BookingContext>
+        <CommentContextProvider>
+              <App />
+        </CommentContextProvider>
+     
+      </BookingContext>
+     </UserContext>
     </ListingContext>
- </AuthContext>
- </BrowserRouter>
+   </AuthContext>
+  </BrowserRouter>
 )

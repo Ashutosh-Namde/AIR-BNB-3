@@ -1,32 +1,34 @@
 const mongoose = require("mongoose")
 
+const listingModle = require("../model/listing.model");
+const { raw } = require("express");
+
+
 const userSchema = mongoose.Schema({
     userName:{
-        required:"true",
+        required:true,
         type:String
     },
     email:{
         required:true,
         type:String
     },
-    // phone:{
-       
-    //     type:Number
-    // },
+ 
     password:{
         required:true,
         type:String
     },
-    // address:{
-       
-    //     type:String
-    // },
-    // isAdmin:{
-    //     Type:Boolean,
-    //     default:false
-    // }
+ 
+  listing : [{
+    type:mongoose.Schema.ObjectId,
+    ref:"Listing"
+  }],
+  booking:[{
+    type:mongoose.Schema.ObjectId,
+    ref:"Listing"
+  }],
+  
+},{timestamps:true})
 
-})
 
-
-module.exports = mongoose.model("user" , userSchema)
+module.exports = mongoose.model("User" , userSchema)

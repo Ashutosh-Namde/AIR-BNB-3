@@ -38,6 +38,10 @@ const Nav = () => {
 
         console.log(result.data.message);
         setuserData(null)
+        console.log("logout");
+        
+    //      localStorage.removeItem("user");
+    // localStorage.removeItem("token");
         
     } catch (error) {
         console.log(error.response.data.message);
@@ -94,7 +98,7 @@ const Nav = () => {
                <h1 className='border mt-4 border-gray-400 w-full'></h1>
                <ul className='mt-5' onClick={()=>{navigate("/listing")}}>List Your Home</ul>
                <ul className='mt-5' onClick={()=>{navigate("mylisting")}}>My Listing</ul>
-               <ul className='mt-5'>Check Booking</ul>
+               <ul className='mt-5' onClick={()=>{navigate("mybooking")}}>Check Booking</ul>
             </div>
            }
 

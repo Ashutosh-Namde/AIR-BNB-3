@@ -21,18 +21,18 @@ const registerUserController = async(req,res)=>{
       password:hashPassword,
     
      })
-   console.log(process.env.JWT_SECRETE);
+  //  console.log(process.env.JWT_SECRETE);
    
    const token =await genToken(user._id)
 
      res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "lax",
        secure: false,
        maxAge: 7 * 24 * 60 * 60 * 1000
     });
  const { _id } = user;
-console.log(user);
+// console.log(user);
 
 return res.status(201).json({message:"user created successfuly",token,user: { _id, userName, email },})
 
@@ -51,7 +51,8 @@ const loginUserController = async(req,res)=>{
       if(!email||!password){
         return res.status(404).json({message:"requied all field"})
       }
-      const user = await userModel.findOne({email});
+      const user = await userModel.findOne({email}).populate("listing", "title image1 image2 image3 rent city landmark category ");
+
       if(!user){
        return  res.status(404).json({message:"not registered user"})
       }
@@ -63,11 +64,16 @@ const loginUserController = async(req,res)=>{
       const token = await genToken(user._id)
       res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "none",
+      sameSite: "lax",
        secure: false,
+        path: "/",
        maxAge: 7 * 24 * 60 * 60 * 1000
     });
-     const { _id , userName} = user;
+    console.log(token);
+    
+     const { _id , userName } = user;
+    //  console.log(user,email);
+     
     return  res.status(201).json({message:"login succesfully",user: { _id, userName, email }})
       
    } catch (error) {
@@ -86,13 +92,13 @@ try {
  
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "none",
+    sameSite: "lax",
     secure: false,
+     path: "/", 
   });
  return res.status(201).json({message:"logout success"})
 } catch (error) {
   return res.status(409).json({message:"error in logout"}, error)
-   console.log(error);
    
 }
  
