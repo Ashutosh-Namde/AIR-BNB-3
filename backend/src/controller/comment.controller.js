@@ -1,46 +1,39 @@
 const Comment = require("../model/comment.model");
 
-
-
-const createComment = async (req, res) => {
+// Add new comment
+exports.addComment = async (req, res) => {
   try {
-    const { text } = req.body;
-    const { listingId } = req.params;
+    const { text, postId } = req.body;
+    console.log(text,postId);
+    
+    const userId = req.userId; // JWT auth middleware se user id aayegi
+    console.log(userId,"userid");
+    
 
-    // Basic validation
-    if (!text || !listingId) {
-      return res.status(400).json({ message: "Text and listingId are required." });
-    }
-
-    // Create new comment
     const comment = await Comment.create({
-      user: req.userId,       // set from auth middleware
-      listing: listingId,     // passed in URL
       text,
+      user: userId,
+      post: postId,
     });
 
-    return res.status(201).json({ message: "Comment added", comment });
+    res.status(201).json({comment,success:true, message:"comment created sucessfull"});
   } catch (error) {
-    console.error("Error adding comment:", error);
-    return res.status(500).json({ message: "Error adding comment", error: error.message });
+    res.status(409).json({ message: "Error adding comment", error });
   }
 };
 
+// Get all comments for a post
+exports.getCommentsByPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id,"id");
+    
+    const comments = await Comment.find({ post: id })
+      .populate("user") 
+      .sort({ createdAt: -1 });
 
-
-
-const getAllComment = async (req,res)=>{
-     try {
-    const comments = await Comment.find({ listing: req.params.listingId })
-      .populate("user", "name email");
-
-    res.status(200).json(comments);
+    res.json(comments);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching comments", error: error.message });
+    res.status(409).json({ message: "Error fetching comments", error });
   }
-}
-
-module.exports = {
-    createComment,
-    getAllComment
-}
+};

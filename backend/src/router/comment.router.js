@@ -1,13 +1,13 @@
 const express = require("express")
 const { isAuth } = require("../middleware/isAuth")
-const { createComment, getAllComment } = require("../controller/comment.controller")
+const {  addComment, getCommentsByPost } = require("../controller/comment.controller")
 
 const commentRouter = express.Router()
 
 
-commentRouter.post("/create/:listingId",isAuth,createComment)
-commentRouter.get("/get/:listingId", isAuth,getAllComment)
 
+commentRouter.post("/addComment", isAuth, addComment); // Add comment
+commentRouter.get("/:id", getCommentsByPost); // Get comments for a post
 
 
 module.exports = commentRouter

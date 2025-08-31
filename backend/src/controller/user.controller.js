@@ -69,7 +69,7 @@ const loginUserController = async(req,res)=>{
         path: "/",
        maxAge: 7 * 24 * 60 * 60 * 1000
     });
-    console.log(token);
+    console.log(token,"login");
     
      const { _id , userName } = user;
     //  console.log(user,email);
@@ -88,7 +88,7 @@ const loginUserController = async(req,res)=>{
 const logoutUserController = async(req,res)=>{
 try {
     const {token} = req.cookies;
- console.log(token);
+ console.log(token,"logout");
  
   res.clearCookie("token", {
     httpOnly: true,

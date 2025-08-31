@@ -16,6 +16,7 @@ const BookingContext = ({ children }) => {
     const { getCurrentUser } = useContext(userDataContext);
     const {handleGetAllListing} = useContext(listingDataContext);
    const [bookingData, setbookingData] = useState([])
+   const [currentBooking, setCurrentBooking] = useState(null);
 
   const handleBooking =async (id)=>{
 
@@ -26,8 +27,7 @@ const BookingContext = ({ children }) => {
     )
     await getCurrentUser()
     await handleGetAllListing()
-
-    setbookingData(result.data.booking)
+setCurrentBooking(result.data.booking);
     console.log("Booking created successfully:", result.data);
     } catch (error) {
   console.log("Error in booking:", error?.response?.data || error.message);
@@ -83,7 +83,9 @@ useEffect(() => {
     setbookingData,
     handleBooking,
     handleCancelBooking,
-    getMyBookings
+    getMyBookings,
+    currentBooking,
+    setCurrentBooking
   }
 
   return (

@@ -1,14 +1,16 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-async function connectDB(){
-    try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/AIRBNBNEW")
-        console.log("DB connected");
-        
-    } catch (error) {
-        console.log("error in connect db" , error);
-        
-    }
+async function connectDB() {
+  try {
+    console.log("MongoDB URI:", process.env.MONGO_URI);
+
+    await mongoose.connect(process.env.MONGO_URI);
+
+    console.log("✅ DB connected successfully");
+  } catch (error) {
+    console.error("❌ Error in DB connect:", error.message);
+    process.exit(1);
+  }
 }
 
-module.exports=connectDB
+module.exports = connectDB;

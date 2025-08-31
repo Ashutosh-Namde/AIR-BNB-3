@@ -6,7 +6,8 @@ import AuthContext from './context/AuthContext.jsx'
 import UserContext from './context/UserContext.jsx'
 import ListingContext from './context/ListingContext.jsx'
 import BookingContext from './context/BookingContext.jsx'
-import CommentContextProvider from './context/comment.jsx'
+import { CommentProvider } from "./context/comment";  // ✅ curly braces
+
 
 
 
@@ -16,9 +17,9 @@ createRoot(document.getElementById('root')).render(
    <ListingContext>
      <UserContext>
       <BookingContext>
-        <CommentContextProvider>
+        <CommentProvider>
               <App />
-        </CommentContextProvider>
+        </CommentProvider>
      
       </BookingContext>
      </UserContext>

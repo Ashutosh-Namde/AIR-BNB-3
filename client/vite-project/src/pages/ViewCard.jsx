@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowLeftLong } from 'react-icons/fa6';
 import { userDataContext } from '../context/UserContext';
 import { listingDataContext } from '../context/ListingContext';
@@ -9,7 +9,9 @@ import axios from 'axios';
 import { authDataContext } from '../context/AuthContext';
 import { IoMdStar } from 'react-icons/io';
 import { BookingDataContext } from '../context/BookingContext';
-import { commentContext } from '../context/comment';
+import {CommentContext} from '../context/comment'
+import CommentForm from './CommentForm';
+import CommentsList from './Comment';
 
 const ViewCard = () => {
     const navigate = useNavigate();
@@ -41,12 +43,19 @@ const ViewCard = () => {
     setnight} = useContext(BookingDataContext)
     const {handleBooking} = useContext(BookingDataContext)
 
-   const { comments , setComments, fetchComments , loading, setLoading } = useContext(commentContext);
+   const { comments , setComments, fetchComments , loading, setLoading } = useContext(CommentContext);
    const {bookingData} = useContext(BookingDataContext)
+
+   const {id} = useParams()
+   console.log("id posy" , id);
+   
 
 
  useEffect(() => {
-  fetchComments(bookingData[1].listing._id); // now this works properly
+  // fetchComments(bookingData[1].listing._id);
+  // console.log(listing._id,"listibg");
+  
+  // now this works properly
  console.log(bookingData,"bokking");
   
 
@@ -424,26 +433,11 @@ const ViewCard = () => {
    
       </div>
        </div> } 
-       <div className='h-[40vh] w-[40vw] bg-gray-400 flex'>
-        <h1 className='text-2xl font-semibold flex  justify-center w-full'>Reviews</h1>
- {loading ? (
-        <p className="text-white text-center">Loading comments...</p>
-      ) : comments.length === 0 ? (
-        <p className="text-white text-center">No comments yet.</p>
-      ) : (
-        comments.map((c) => (
-          <div key={c._id} className="bg-white p-3 rounded mb-2 shadow">
-            <p className="text-gray-800">
-              <span className="font-semibold">{c.user?.name || "Anonymous"}:</span> {c.text}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">
-              {new Date(c.createdAt).toLocaleString()}
-            </p>
-          </div>
-        ))
-      )}
+       <div className='h-[60vh] w-[40vw] flex'>
+        {/* <h1 className='text-2xl font-semibold flex  justify-center w-full'>Reviews</h1> */}
+      <CommentsList postId={id}/>
        </div>
-        </div>
+         </div>
   )
 }
 

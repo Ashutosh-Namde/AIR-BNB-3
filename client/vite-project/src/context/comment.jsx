@@ -1,79 +1,53 @@
-import React, { createContext, useContext, useState } from 'react';
-import axios from 'axios';
-import { authDataContext } from './AuthContext';
+import React, { createContext, useState, useContext } from "react";
+import axios from "axios";
+import { authDataContext } from "./AuthContext";
+import { useParams } from "react-router-dom";
 
-export const commentContext = createContext();
+export const CommentContext = createContext();
 
-const CommentContextProvider = ({ children }) => {
+export const useComments = () => useContext(CommentContext);
+
+export const CommentProvider = ({ children }) => {
   const [comments, setComments] = useState([]);
-  const [text, setText] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-      const {serverUrl} = useContext(authDataContext)
+  const {serverUrl} = useContext(authDataContext)
+
   
 
-  const fetchComments = async (listingId) => {
+  // Fetch comments by postId
+  const fetchComments = async (id) => {
+    console.log(id,"qwert");
+    
     try {
-      const res = await axios.get(`${serverUrl}/comment/get/${listingId}`);
-      setComments(res.data.comments);
-      console.log("fetch data "+res.data)
+      const res = await axios.get(`http://localhost:3000/comment/${id}`, {
+        withCredentials: true,
+      });
+      setComments(res.data);
+      console.log(res.data,"fetch details");
+      
     } catch (err) {
-      console.error("Error loading comments:", err.response?.data || err.message);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching comments:", err);
     }
   };
 
-
-  // Add a new comment to a listing
-  // const handleAddComment = async (listingId) => {
-  //   try {
-  //     if (!text.trim()) return;
-  //     await axios.post(
-  //       `/create/Comment/${listingId}`,
-  //       { text },
-  //       { withCredentials: true }
-  //     );
-  //     setText('');
-  //     fetchComments(listingId); // refresh
-  //   } catch (err) {
-  //     console.error('Error adding comment:', err);
-  //     setError('Failed to add comment');
-  //   }
-  // };
-
-  const handleAddComment = async(listingId)=>{
-       
-   try {
-     const result = await axios.post(serverUrl +`/comment/create/${listingId}`,{text},{withCredentials:true})
-    
-    console.log("comment , "+ result.data.comment);
-    console.log("comment", JSON.stringify(comments));
-
-    
-   } catch (error) {
-    console.log("error in addcomment" + error.response.data);
-    
-   }
-    
-
-  }
-  const value = {
-    comments,
-    setComments,
-    text,
-    setText,
-    loading,
-    error,
-    handleAddComment,
-    fetchComments,
+  // Add new comment
+  const addComment = async (text, postId) => {
+    try {
+      const res = await axios.post(
+        `${serverUrl}/comment/addComment`,
+        { text, postId },
+        { withCredentials: true }
+      );
+      setComments((prev) => [res.data, ...prev]); 
+      console.log("comments" , res.data);
+      
+    } catch (err) {
+      console.error("Error adding comment:", err);
+    }
   };
 
   return (
-    <commentContext.Provider value={value}>
+    <CommentContext.Provider value={{ comments, fetchComments, addComment }}>
       {children}
-    </commentContext.Provider>
+    </CommentContext.Provider>
   );
 };
-
-export default CommentContextProvider;

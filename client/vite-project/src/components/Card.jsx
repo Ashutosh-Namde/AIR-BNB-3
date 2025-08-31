@@ -26,7 +26,7 @@ const navigate = useNavigate()
     try {
       if(userData) {
         await viewCardHandler(id);
-        navigate("/viewcard")
+        navigate(`/viewcard/${id}`)
       } else {
         navigate("/login");
       }

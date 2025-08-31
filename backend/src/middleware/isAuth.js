@@ -8,7 +8,7 @@
         return res.status(409).json({message:"user dont have a token"})
       }
       const verifyToken = jwt.verify(token,"qwertyuio123")
-      console.log(verifyToken+"token");
+      console.log(verifyToken,"token");
       
 
       if(!verifyToken){
